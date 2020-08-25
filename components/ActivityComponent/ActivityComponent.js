@@ -18,12 +18,11 @@ function Activity(props) {
     // }
 
     return (
-        <View className="activity py-5">
+        <View >
             <Card
-                title="Activity Planned"
-                containerStyle={styles.cardRow}>
+                title="Activity Planned">
                 <View>
-                    <View style={styles.cardRow} className={props.modalReject ? 'change' : 'initial'}>
+                    <View className={props.modalReject ? 'change' : 'initial'}>
                         {/* <Image
                                 source={{ uri: props.image }}
                                 style={styles.profileImage}
@@ -32,7 +31,7 @@ function Activity(props) {
                         <Text>{props.date} at {props.time} with {props.name}</Text>
                     </View>
 
-                    <View style={styles.cardRow}>
+                    <View style={styles.buttonContainer}>
 
                         <Button
                             title="Accept"
@@ -90,9 +89,8 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         flex: 1,
         flexDirection: "row",
-        margin: 20,
-        padding: 20,
-        minWidth: 200
+        margin: 10,
+        padding: 10,
     },
     cardItem: {
         flex: 1,
@@ -117,7 +115,12 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     buttonContainer: {
-        maxWidth: 100
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "row",
+        margin: 20,
+        marginHorizontal: 60,
+        padding: 40,
     },
     testcontainer: {
         flex: 1,
