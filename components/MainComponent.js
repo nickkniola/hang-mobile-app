@@ -8,7 +8,7 @@ import Suggest from './SuggestComponent';
 
 const Main = () => (
     <React.Fragment>
-        <Suggest/>
+        <Pairing/>
     </React.Fragment>
 );
 export default Main;

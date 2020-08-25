@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Button, Text } from 'react-native-elements';
+import { View, StyleSheet, Button } from 'react-native';
+import { Text } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Activity from './ActivityComponent/ActivityComponent';
 import { USERDATA } from '../shared/userData.js';
@@ -16,16 +16,15 @@ function Suggest(props) {
     const [image, setImage] = useState('');
     const [userdata] = useState(USERDATA);
     const [shown, setShown] = useState(false);
-    const [modalReject, setModalReject] = useState(false);
 
-    const [date, setDate] = useState(new Date(1598051730000));
+
+    const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
 
     const cardFocus = useRef(null);
 
     const userReject = () => {
-        setModalReject(true);
         setTimeout(userReject2, 500)
     };
     const userReject2 = () => {
@@ -35,7 +34,6 @@ function Suggest(props) {
         setImage(userdata[selectUserIndex].image);
         setActivity(userdata[randomNumber()].activity);
         setLocation(userdata[randomNumber()].location);
-        setModalReject(false);
     }
 
     const handleSubmit = event => {
@@ -52,15 +50,11 @@ function Suggest(props) {
         setTime(`${hours}:${minutes}`);
         setActivity(userdata[randomNumber()].activity);
         setLocation(userdata[randomNumber()].location);
-        if (date.length > 5) {
-            setNewDate(date.substr(5, 8));
-        }
-        if (!date) {
-            setNewDate(`${month}-${day}`)
+        let testDate = date.toString();
+        if (testDate.length > 5) {
+            setNewDate(testDate.substr(3, 8));
         }
         setShown(true);
-
-
     }
 
     const onChange = (event, selectedDate) => {
@@ -79,7 +73,7 @@ function Suggest(props) {
     };
 
 
-    
+
 
 
     const randomNumber = () => Math.floor(Math.random() * 4);
@@ -95,10 +89,10 @@ function Suggest(props) {
             </View>
             <View >
                 <View >
-                    <Button onPress={showDatepicker} title="Select Date" />
+                    <Button onPress={showDatepicker} title="Choose Date" />
                 </View>
                 <View>
-                    <Button onPress={handleSubmit} title="Select" />
+                    <Button onPress={handleSubmit} title="Submit" />
                 </View>
                 {show && (
                     <DateTimePicker
@@ -111,7 +105,7 @@ function Suggest(props) {
                     />
                 )}
             </View>
-            {shown && <Activity date={newDate} time={time} activity={activity} location={location} name={name} image={image} userReject={userReject} modalReject={modalReject} />}
+            {shown && <Activity date={newDate} time={time} activity={activity} location={location} name={name} image={image} userReject={userReject} />}
         </View>
     );
 }

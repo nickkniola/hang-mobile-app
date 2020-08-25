@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, Modal, Image, StyleSheet, Button } from 'react-native';
+import { View, Text, Modal, Image, StyleSheet, Button, Alert } from 'react-native';
 import { Card, Input } from 'react-native-elements';
 
 
 function Activity(props) {
 
+    const [message, setMessage] = useState('');
     const [acceptmodal, setAcceptModal] = useState(false);
     const [messagemodal, setMessageModal] = useState(false);
     const [linkToHome, setLinkToHome] = useState(false);
@@ -17,12 +18,39 @@ function Activity(props) {
     //     return (<Redirect push to="/home" />);
     // }
 
+    const changeMessage = (typedMessage) => setMessage({ typedMessage });
+
+
+    const createAcceptAlert = () => {
+        Alert.alert(
+            "Hang",
+            "You're All Set",
+            [
+                { text: "OK", onPress: () => console.log("OK Pressed") }
+            ],
+            { cancelable: false }
+        );
+    }
+
+    const createMessageAlert = () => {
+        Alert.alert(
+            "Hang",
+            "Message Sent",
+            [
+                { text: "OK", onPress: () => console.log("OK Pressed") }
+            ],
+            { cancelable: false }
+        );
+    }
+
+
+
     return (
         <View >
             <Card
                 title="Activity Planned">
                 <View>
-                    <View className={props.modalReject ? 'change' : 'initial'}>
+                    <View >
                         {/* <Image
                                 source={{ uri: props.image }}
                                 style={styles.profileImage}
@@ -35,13 +63,13 @@ function Activity(props) {
 
                         <Button
                             title="Accept"
-                            onClick={toggleAcceptModal}
+                            onPress={createAcceptAlert}
                         />
 
 
                         <Button
                             title="Reject"
-                            onClick={props.userReject}
+                            onPress={props.userReject}
                             color='red'
                         />
 
@@ -50,11 +78,11 @@ function Activity(props) {
                     <View style="cardRow">
                         <Input
                             placeholder="Message Them Directly"
-                            onChangeText={() => console.log('test')}
+                            onChangeText={changeMessage}
                         />
                         <Button
                             title="Send Message"
-                            onClick={toggleMessageModal}
+                            onPress={createMessageAlert}
                         />
                     </View>
                     {/* <Modal isOpen={acceptmodal} toggle={toggleAcceptModal}>
