@@ -1,8 +1,15 @@
 {
     "cSpell.ignoreWords": [
         "acceptmodal",
+        "datetimepicker",
+        "ddate",
         "messagemodal",
-        "textinput"
+        "selectactivity",
+        "selectcity",
+        "show",
+        "show timepicker",
+        "textinput",
+        "timepicker"
     ],
     "cSpell.words": [
         "locationdata",

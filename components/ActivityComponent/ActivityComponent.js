@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, Modal, Image, StyleSheet, Button, Alert } from 'react-native';
 import { Card, Input } from 'react-native-elements';
 
-
 function Activity(props) {
 
     const [message, setMessage] = useState('');
@@ -14,9 +13,6 @@ function Activity(props) {
     const toggleMessageModal = () => setMessageModal(!messagemodal);
     const userAccepts = () => setLinkToHome(true);
 
-    // if (linkToHome) {
-    //     return (<Redirect push to="/home" />);
-    // }
 
     const changeMessage = (typedMessage) => setMessage({ typedMessage });
 
@@ -43,62 +39,50 @@ function Activity(props) {
         );
     }
 
-
+    // let testing = '../../assets/images/nick.jpg'
+    // if (props.name === 'Tom') {
+    //     testing = '../../assets/images/tom.jpg';
+    // } else if (props.name === 'Ali') {
+    //     testing = '../../assets/images/ali.jpg';
+    // } else if (props.name === 'Kathy') {
+    //     testing = '../../assets/images/kathy.jpg';
+    // }
 
     return (
         <View >
             <Card
                 title="Activity Planned">
                 <View>
-                    <View >
+                    <View>
                         {/* <Image
-                                source={{ uri: props.image }}
-                                style={styles.profileImage}
-                            /> */}
-                        <Text>{props.restaurant} {props.activity} in {props.location}</Text>
-                        <Text>{props.date} at {props.time} with {props.name}</Text>
+                            style={{ width: 50, height: 50 }}
+                            source={require(testing)}
+
+                        /> */}
                     </View>
-
-                    <View style={styles.buttonContainer}>
-
-                        <Button
-                            title="Accept"
-                            onPress={createAcceptAlert}
-                        />
-
-
-                        <Button
-                            title="Reject"
-                            onPress={props.userReject}
-                            color='red'
-                        />
-
-                    </View>
-
-                    <View style="cardRow">
-                        <Input
-                            placeholder="Message Them Directly"
-                            onChangeText={changeMessage}
-                        />
-                        <Button
-                            title="Send Message"
-                            onPress={createMessageAlert}
-                        />
-                    </View>
-                    {/* <Modal isOpen={acceptmodal} toggle={toggleAcceptModal}>
-                        <Text><Image source={"/assets/images/hang_logo.png"} />Hang</Text>
-                        <Text>
-                            You’re all set! You will be notified if the other user also accepts.
-                            </Text>
-                        <Button title="Solid Button" onClick={userAccepts}>Cool</Button>
-                    </Modal>
-                    <Modal isOpen={messagemodal} toggle={toggleMessageModal}>
-                        <Text className="justify-content-center"><Image source={"/assets/images/hang_logo.png"} />Hang</Text>
-                        <Text className="text-center">
-                            Message Sent
-                            </Text>
-                        <Button title="Solid Button" onClick={toggleMessageModal}>Cool</Button>
-                    </Modal> */}
+                    <Text>{props.restaurant} {props.activity} in {props.location}</Text>
+                    <Text>{props.date} at {props.time} with {props.name}</Text>
+                </View>
+                <View style={styles.buttonContainer}>
+                    <Button
+                        title="Accept"
+                        onPress={createAcceptAlert}
+                    />
+                    <Button
+                        title="Reject"
+                        onPress={props.userReject}
+                        color='red'
+                    />
+                </View>
+                <View style="cardRow">
+                    <Input
+                        placeholder="Message Them Directly"
+                        onChangeText={changeMessage}
+                    />
+                    <Button
+                        title="Send Message"
+                        onPress={createMessageAlert}
+                    />
                 </View>
             </Card>
         </View>

@@ -1,13 +1,14 @@
 import React, { useState, useRef } from 'react';
+import { View, Button, Picker } from 'react-native';
+import { Text } from 'react-native-elements';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import Activity from './ActivityComponent/ActivityComponent';
-import { View, Text, Button } from 'react-native';
-import { Input } from 'react-native-elements';
 import { USERDATA } from '../shared/userData.js';
 import { LOCATIONDATA } from '../shared/locationData.js';
 
 function Pairing(props) {
 
-    const [date, setDate] = useState('');
+
     const [newDate, setNewDate] = useState('');
     const [time, setTime] = useState('');
     const [activity, setActivity] = useState('');
@@ -19,8 +20,13 @@ function Pairing(props) {
     const [userdata] = useState(USERDATA);
     const [locationdata] = useState(LOCATIONDATA);
     const [modalRejectPairing, setModalRejectPairing] = useState(false);
+    const [incompleteForm, setIncompleteForm] = useState(false);
 
     const cardFocus = useRef(null);
+
+    const [date, setDate] = useState(new Date());
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
 
     const userRejectPairing = () => {
         setModalRejectPairing(true);
@@ -28,7 +34,7 @@ function Pairing(props) {
     };
     const userReject2Pairing = () => {
         if (activity === 'food') {
-            setActivity('');
+            setActivity('Food');
             handleFood();
         }
         const selectUserIndex = randomNumber()
@@ -38,23 +44,30 @@ function Pairing(props) {
     }
 
     const handleSubmit = event => {
+        if (!activity || !location) {
+            setIncompleteForm(true);
+        } else {
+            setIncompleteForm(false);
+        }
+        if (!location) { console.log('no location') }
+        if (!date) { console.log('no date') }
+        console.log(date)
         activity === 'food' ? setActivity('') : console.log('');
         const selectUserIndex = randomNumber()
+
+        console.log(image);
+        let ddate = date.toString();
+        if (ddate.length > 5) {
+            setNewDate(ddate.substr(3, 7))
+        }
+        console.log(ddate);
+        setTime(ddate.substr(15, 6))
         setName(userdata[selectUserIndex].name);
         setImage(userdata[selectUserIndex].image);
-        if (date.length > 5) {
-            setNewDate(date.substr(5, 8))
-        }
         setShown(true);
-        setTimeout(scrollToBottom, 0);
         event.preventDefault();
     }
 
-    const scrollToBottom = () => {
-        cardFocus.current.scrollIntoView({
-            behavior: "smooth"
-        })
-    };
 
 
 
@@ -63,14 +76,14 @@ function Pairing(props) {
 
 
     const handleActivity = event => {
-        switch (event.target.value) {
+        switch (event) {
             case 'Food':
-                setActivity(event.target.value)
+                setActivity(event)
                 handleFood();
                 break;
             default:
                 setRestaurant('');
-                setActivity(event.target.value)
+                setActivity(event)
         }
 
     }
@@ -83,65 +96,100 @@ function Pairing(props) {
 
     }
 
-    const handleLocation = (event) => {
-        setLocation(event.target.value);
-    }
 
+
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setShow(Platform.OS === 'ios');
+        setDate(currentDate);
+    };
+
+    const showMode = (currentMode) => {
+        setShow(true);
+        setMode(currentMode);
+    };
+
+    const showDatepicker = () => {
+        showMode('date');
+    };
+
+    const showTimepicker = () => {
+        showMode('time');
+    };
 
     return (
         <View>
-
             <View>
-                <Text h3 className="display-4 mb-1">Pairing</Text>
-                <Text className="mb-4 lead">Select your activity and availability to get paired.</Text>
+                <Text h3 >Pairing</Text>
+                <Text>Select your activity and availability to get paired.</Text>
             </View>
-
-            <Text h3 >Pairing </Text>
             <View>
-
+                <Text>Date</Text>
                 <View>
-                    <Text>Date</Text>
-                    <Input name="date" type="date" className="form-control" placeholder="0" draggable="true" value={date} onChange={e => setDate(e.target.value)} required />
-                    <Text>Select a date</Text>
+                    <Button
+                        title="Select Date"
+                        onPress={showDatepicker}
+                    />
                 </View>
-                <View>
-                    <Text>Time</Text>
-                    <Input name="time" type="time" className="form-control" placeholder="0" draggable="true" value={time} onChange={e => setTime(e.target.value)} required />
-                    <Text className="invalid-feedback">Select a time</Text>
-                </View>
-
-                <View>
-                    <Text for="location">Location</Text>
-                    <Input name="location" type="select" className="form-control" id="location" value={location} onChange={handleLocation} required>
-                        <Text value="">Select...</Text>
-                        <Text value="Chicago">Chicago</Text>
-                        <Text value="Houston">Houston</Text>
-                        <Text value="Los Angeles">Los Angeles</Text>
-                        <Text value="New York City">New York City</Text>
-                        <Text value="Philadelphia">Philadelphia</Text>
-                        <Text value="San Francisco">San Francisco</Text>
-                        <Text value="San Jose">San Jose</Text>
-                    </Input>
-                    <Text>Select a city</Text>
-                </View>
-                <View>
-                    <Text for="activity">Activity</Text>
-                    <Input name="activity" type="select" className="form-control" id="activity" value={activity} onChange={handleActivity} required>
-                        <Text value="">Select...</Text>
-                        <Text value="Sports">Sports</Text>
-                        <Text value="Movie">Movie</Text>
-                        <Text value="Food">Food</Text>
-                        <Text value="Museum">Museum</Text>
-                    </Input>
-                    <Text>Select an activity</Text>
-                </View>
+                {show && (
+                    <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date}
+                        mode={mode}
+                        is24Hour={true}
+                        display="default"
+                        onChange={onChange}
+                    />
+                )}
+            </View>
+            <View>
+                <Text>Time</Text>
                 <Button
-                    title="Select"
-                    onPress={() => console.log('test')} />
+                    title="Select Time"
+                    onPress={showTimepicker}
+                />
             </View>
+            <View>
+                <Text for="location">Location</Text>
+                <Picker
+                    selectedValue={location}
+                    style={{ height: 50, width: 150 }}
+                    onValueChange={(itemValue) => setLocation(itemValue)}
+                >
+                    <Picker.Item label="Select..." value="" />
+                    <Picker.Item label="Chicago" value="Chicago" />
+                    <Picker.Item label="Houston" value="Houston" />
+                    <Picker.Item label="Los Angeles" value="Los Angeles" />
+                    <Picker.Item label="New York City" value="New York City" />
+                    <Picker.Item label="Philadelphia" value="Philadelphia" />
+                    <Picker.Item label="San Francisco" value="San Francisco" />
+                    <Picker.Item label="San Jose" value="San Jose" />
+                </Picker>
 
+            </View>
+            <View>
+                <Text for="activity">Activity</Text>
+                <Picker
+                    selectedValue={activity}
+                    style={{ height: 50, width: 150 }}
+                    onValueChange={(itemValue) => handleActivity(itemValue)}
+                >
+                    <Picker.Item label="Select..." value="" />
+                    <Picker.Item label="Sports" value="Sports" />
+                    <Picker.Item label="Movie" value="Movie" />
+                    <Picker.Item label="Food" value="Food" />
+                    <Picker.Item label="Museum" value="Museum" />
+                </Picker>
+            </View>
+            <View>
+                <Button
+                    title="Submit"
+                    onPress={handleSubmit} />
+            </View>
+            {incompleteForm && <Text>Must fill out form completely</Text>}
 
-            {shown && <Activity date={newDate} time={time} activity={activity === "Food" ? " " : activity} location={location} name={name} restaurant={restaurant} image={image} userReject={userRejectPairing} modalReject={modalRejectPairing} />}
+            {!incompleteForm && shown && <Activity date={newDate} time={time} activity={activity === "Food" ? "" : activity} location={location} name={name} restaurant={restaurant} image={image} userReject={userRejectPairing} />}
 
         </View>
     );
