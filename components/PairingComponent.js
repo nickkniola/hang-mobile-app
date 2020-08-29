@@ -62,7 +62,7 @@ function Pairing(props) {
         setTime(ddate.substr(15, 6))
         setName(userdata[selectUserIndex].name);
         setImage(userdata[selectUserIndex].image);
-        if (incompleteForm) { setShown(true) };
+        if (location && activity) { setShown(true) };
         event.preventDefault();
     }
 
