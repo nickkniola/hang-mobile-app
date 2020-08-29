@@ -49,30 +49,28 @@ function Activity(props) {
     // }
 
     return (
-        <View >
+        <View>
             <Card
                 title="Activity Planned">
-                <View>
-                    <View>
-                        {/* <Image
-                            style={{ width: 50, height: 50 }}
-                            source={require(testing)}
-
-                        /> */}
-                    </View>
-                    <Text>{props.restaurant} {props.activity} in {props.location}</Text>
-                    <Text>{props.date} at {props.time} with {props.name}</Text>
+                <View style={styles.container}>
+                    <Text style={styles.textCenter}>{props.restaurant} {props.activity} in {props.location}</Text>
+                    <Text style={styles.textCenter}>{props.date} at {props.time} with {props.name}</Text>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <Button
-                        title="Accept"
-                        onPress={createAcceptAlert}
-                    />
-                    <Button
-                        title="Reject"
-                        onPress={props.userReject}
-                        color='red'
-                    />
+                    <View style={styles.buttonItem}>
+                        <Button
+                            title="Accept"
+                            onPress={createAcceptAlert}
+                        />
+                    </View>
+                    <View style={styles.buttonItem}>
+                        <Button
+                            style={styles.buttonItem}
+                            title="Reject"
+                            onPress={props.userReject}
+                            color='red'
+                        />
+                    </View>
                 </View>
                 <View style="cardRow">
                     <Input
@@ -92,57 +90,27 @@ function Activity(props) {
 }
 
 const styles = StyleSheet.create({
-    profileImage: {
-        width: 68,
-        height: 68,
-    },
-    cardRow: {
-        alignItems: "center",
-        justifyContent: "center",
-        flex: 1,
-        flexDirection: "row",
-        margin: 10,
-        padding: 10,
-    },
-    cardItem: {
-        flex: 1,
-        margin: 10
-    },
-    modal: {
-        justifyContent: "center",
-        margin: 20
-    },
-    textinput: {
-        margin: 10
-    },
     container: {
         flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        padding: 24,
+        justifyContent: 'center'
     },
-    containertwo: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
+    view: {
+        marginTop: 10
     },
     buttonContainer: {
-        alignItems: "center",
         justifyContent: "center",
         flexDirection: "row",
-        margin: 20,
-        marginHorizontal: 60,
-        padding: 40,
+        margin: 10,
+        padding: 30
     },
-    testcontainer: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
+    buttonItem: {
+        marginHorizontal: 10,
+        minWidth: 80
     },
-    testbutton: {
-        backgroundColor: 'green',
-        width: '40%',
-        height: 40
+    textCenter: {
+        textAlign: 'center'
+
     }
 });
 
