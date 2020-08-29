@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, StyleSheet, Button } from 'react-native';
+import { View, Button, StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Activity from './ActivityComponent/ActivityComponent';
@@ -80,18 +80,13 @@ function Suggest(props) {
 
 
     return (
-        <View>
-            <View>
-                <Text h4>Suggestion</Text>
-            </View>
-            <View>
-                <Text>Randomly get paired with an activity and partner.</Text>
-            </View>
-            <View >
-                <View >
-                    <Button onPress={showDatepicker} title="Choose Date" />
+        <View style={styles.container}>
+
+            {!shown && <View >
+                <View style={styles.view}>
+                    <Button onPress={showDatepicker} title="Select Date" />
                 </View>
-                <View>
+                <View style={styles.view}>
                     <Button onPress={handleSubmit} title="Submit" />
                 </View>
                 {show && (
@@ -104,81 +99,19 @@ function Suggest(props) {
                         onChange={onChange}
                     />
                 )}
-            </View>
+            </View>}
             {shown && <Activity date={newDate} time={time} activity={activity} location={location} name={name} image={image} userReject={userReject} />}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    profileImage: {
-        width: 68,
-        height: 68,
-    },
-    cardRow: {
-        alignItems: "center",
-        justifyContent: "center",
-        flex: 1,
-        flexDirection: "row",
-        margin: 10,
-        padding: 10,
-        marginTop: 50,
-
-    },
-    item: {
-        alignItems: "center",
-        justifyContent: "center",
-        flex: 1,
-        flexDirection: "row",
-        marginTop: 0,
-        marginBottom: 20,
-        paddingHorizontal: 20,
-        alignItems: "center",
-        justifyContent: "center"
-    },
-    modal: {
-        justifyContent: "center",
-        margin: 20
-    },
-    textinput: {
-        margin: 10
-    },
     container: {
         flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        padding: 24,
+        justifyContent: 'center'
     },
-    containertwo: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-    buttonContainer: {
-        alignItems: "center",
-        justifyContent: "center",
-        flex: 1,
-        flexDirection: "row",
-        margin: 20,
-        marginHorizontal: 60,
-        padding: 40,
-    },
-    testcontainer: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-    testbutton: {
-        backgroundColor: 'green',
-        width: '40%',
-        height: 40
-    },
-    buttonStyle: {
-        marginHorizontal: 120
-
-    },
-    divider: {
-        marginBottom: 30,
+    view: {
         marginTop: 10
     }
 });
